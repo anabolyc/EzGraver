@@ -199,6 +199,14 @@ void MainWindow::updateEngraveProgress() {
         int y{data[3]*100 + data[4]};
         _ui->image->setPixelEngraved(QPoint{x, y});
     }
+
+    if((data.size() == 4) && (data[0] == (char)0xFF) && (data[1] == (char)0x05) && (data[2] == (char)0x01) && (data[3] == (char)0x01)) {
+        QImage image{_ui->image->engraveImage()};
+        _uploadImage(image);
+        _ezGraver->serialPort()->setBaudRate(QSerialPort::Baud57600, QSerialPort::AllDirections);
+    }
+
+    _ezGraver->dataRecieved(data);
 }
 
 void MainWindow::on_connect_clicked() {

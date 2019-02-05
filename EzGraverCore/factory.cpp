@@ -11,6 +11,7 @@
 #include "ezgraver_v1.h"
 #include "ezgraver_v2.h"
 #include "ezgraver_v3.h"
+#include "ezgraver_v4.h"
 
 namespace Ez {
 
@@ -36,13 +37,15 @@ std::shared_ptr<EzGraver> create(QString const& portName, int protocol) {
         return std::make_shared<EzGraverV2>(serial);
     case 3:
         return std::make_shared<EzGraverV3>(serial);
+    case 4:
+        return std::make_shared<EzGraverV4>(serial);    
     default:
         throw std::invalid_argument{QString{"unsupported protocol '%1' selected"}.arg(protocol).toStdString()};
     }
 }
 
 QList<int> protocols() {
-    return QList<int>{1, 2, 3};
+    return QList<int>{1, 2, 3, 4};
 }
 
 QStringList availablePorts() {

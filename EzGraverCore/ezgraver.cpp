@@ -108,6 +108,20 @@ void EzGraver::_transmit(QByteArray const& data, int chunkSize) {
     }
 }
 
+void EzGraver::dataRecieved(QByteArray const& data) {
+    qDebug() << "EzGraver::received" << data.size() << "bytes:" << data.toHex();
+}
+
+void EzGraver::sleep(int ms)
+{
+    struct timespec ts = { ms / 1000, (ms % 1000) * 1000 * 1000 };
+    nanosleep(&ts, NULL);
+}
+
+void EzGraver::setBaudRate(qint32 baudRate){
+    _serial->setBaudRate(baudRate, QSerialPort::AllDirections);
+}
+
 EzGraver::~EzGraver() {
     qDebug() << "EzGraver is being destroyed, closing serial port";
     _serial->close();

@@ -103,6 +103,14 @@ struct EZGRAVERCORESHARED_EXPORT EzGraver {
      */
     std::shared_ptr<QSerialPort> serialPort();
 
+    /*!
+     * Callback function to process data recieved from engraver.
+     *
+     * \param data Bytes read from serial.
+     */
+    virtual void dataRecieved(QByteArray const& data);
+
+
     EzGraver() = delete;
     virtual ~EzGraver();
 
@@ -110,6 +118,8 @@ protected:
     void _transmit(unsigned char const& data);
     void _transmit(QByteArray const& data);
     void _transmit(QByteArray const& data, int chunkSize);
+    void sleep(int ms);
+    void setBaudRate(qint32 baudRate);
 
 private:
     std::shared_ptr<QSerialPort> _serial;
